@@ -3,10 +3,12 @@ package com.example.socialMedia.controller;
 import java.net.URI;
 import java.util.List;
 import java.util.Locale;
-
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -43,12 +45,15 @@ public class UserController {
 	}
 
 	@GetMapping("/users/{id}")
-	public UserModel getUserById(@PathVariable Integer id) {
+	public EntityModel<UserModel> getUserById(@PathVariable Integer id) {
 		UserModel user = service.getUserById(id);
 		if (user == null) {
 			throw new UserNotFoundException("User not exist with this Id  :" + id);
-		} else
-			return user;
+		}
+		EntityModel<UserModel> entitymodel = EntityModel.of(user);
+		WebMvcLinkBuilder link = linkTo(methodOn(this.getClass()).getUsers());
+		entitymodel.add(link.withRel("all_users"));
+		return entitymodel;
 	}
 
 	@PostMapping("/users")

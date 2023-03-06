@@ -4,12 +4,16 @@ import java.time.LocalDate;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
+
 @Component
 public class UserModel {
 	private Integer id;
 	@Size(min = 5, message = "Name should contain 5 letters")
+	@JsonProperty("user_name")
 	private String name;
 	@Past(message = "Date should pe past")
 	private LocalDate date;
