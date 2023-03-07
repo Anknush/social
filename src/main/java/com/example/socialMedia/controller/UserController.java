@@ -56,7 +56,7 @@ public class UserController {
 		return entitymodel;
 	}
 
-	@PostMapping("/users")
+	@PostMapping("/users") 
 	public ResponseEntity<UserModel> saveUser(@Validated @RequestBody UserModel model) {
 		UserModel saveduser = service.saveUser(model);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(saveduser.getId())

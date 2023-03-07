@@ -6,11 +6,14 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 
-@Component
+@Entity
 public class UserModel {
+	@Id
 	private Integer id;
 	@Size(min = 5, message = "Name should contain 5 letters")
 	@JsonProperty("user_name")
